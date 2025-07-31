@@ -14,24 +14,50 @@ import Footer from "./Footer";
 
 const IndexPage = () => {
   useEffect(() => {
-    const handleScroll = () => {
+    // Correct scrolling position for hash links on load
+    const handleHashScroll = () => {
+      if (window.location.hash) {
+        const section = document.querySelector(window.location.hash);
+        if (section) {
+          setTimeout(() => {
+            const scrollMarginTop = getComputedStyle(section).scrollMarginTop;
+            window.scrollTo({
+              top: section.offsetTop - parseInt(scrollMarginTop),
+              behavior: "smooth",
+            });
+          }, 100);
+        }
+      }
+    };
+
+    // Navmenu Scrollspy
+    const handleScrollSpy = () => {
       document.querySelectorAll('.navmenu a').forEach(link => {
         if (!link.hash) return;
         const section = document.querySelector(link.hash);
         if (!section) return;
         const position = window.scrollY + 200;
         if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+          document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
           link.classList.add('active');
         } else {
           link.classList.remove('active');
         }
       });
     };
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('load', handleScroll);
+
+    window.addEventListener('load', handleHashScroll);
+    window.addEventListener('load', handleScrollSpy);
+    window.addEventListener('scroll', handleScrollSpy);
+
+    // Call once in case already loaded
+    handleHashScroll();
+    handleScrollSpy();
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('load', handleScroll);
+      window.removeEventListener('load', handleHashScroll);
+      window.removeEventListener('load', handleScrollSpy);
+      window.removeEventListener('scroll', handleScrollSpy);
     };
   }, []);
 

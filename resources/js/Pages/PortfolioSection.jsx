@@ -1,85 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import GLightbox from "glightbox";
+import Isotope from "isotope-layout";
+import imagesLoaded from "imagesloaded";
+import "glightbox/dist/css/glightbox.css";
+import app1Img from "../assets/img/portfolio/app-1.jpg";
 
 const portfolioItems = [
   {
-    img: "assets/img/portfolio/app-1.jpg",
+    img: app1Img,
     title: "App 1",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-app",
     gallery: "portfolio-gallery-app",
   },
   {
-    img: "assets/img/portfolio/product-1.jpg",
+    img: app1Img,
     title: "Product 1",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-product",
     gallery: "portfolio-gallery-product",
   },
   {
-    img: "assets/img/portfolio/branding-1.jpg",
+    img: app1Img,
     title: "Branding 1",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-branding",
     gallery: "portfolio-gallery-branding",
   },
   {
-    img: "assets/img/portfolio/books-1.jpg",
+    img: app1Img,
     title: "Books 1",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-books",
     gallery: "portfolio-gallery-book",
   },
   {
-    img: "assets/img/portfolio/app-2.jpg",
+    img: app1Img,
     title: "App 2",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-app",
     gallery: "portfolio-gallery-app",
   },
   {
-    img: "assets/img/portfolio/product-2.jpg",
+    img: app1Img,
     title: "Product 2",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-product",
     gallery: "portfolio-gallery-product",
   },
   {
-    img: "assets/img/portfolio/branding-2.jpg",
+    img: app1Img,
     title: "Branding 2",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-branding",
     gallery: "portfolio-gallery-branding",
   },
   {
-    img: "assets/img/portfolio/books-2.jpg",
+    img: app1Img,
     title: "Books 2",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-books",
     gallery: "portfolio-gallery-book",
   },
   {
-    img: "assets/img/portfolio/app-3.jpg",
+    img: app1Img,
     title: "App 3",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-app",
     gallery: "portfolio-gallery-app",
   },
   {
-    img: "assets/img/portfolio/product-3.jpg",
+    img: app1Img,
     title: "Product 3",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-product",
     gallery: "portfolio-gallery-product",
   },
   {
-    img: "assets/img/portfolio/branding-3.jpg",
+    img: app1Img,
     title: "Branding 3",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-branding",
     gallery: "portfolio-gallery-branding",
   },
   {
-    img: "assets/img/portfolio/books-3.jpg",
+    img: app1Img,
     title: "Books 3",
     desc: "Lorem ipsum, dolor sit amet consectetur",
     filter: "filter-books",
@@ -97,11 +102,34 @@ const filters = [
 
 const PortfolioSection = () => {
   const [activeFilter, setActiveFilter] = useState("*");
+  const gridRef = useRef(null);
+  const iso = useRef(null);
 
-  const filteredItems =
-    activeFilter === "*"
-      ? portfolioItems
-      : portfolioItems.filter((item) => item.filter === activeFilter);
+  // Initialize Isotope
+  useEffect(() => {
+    imagesLoaded(gridRef.current, () => {
+      iso.current = new Isotope(gridRef.current, {
+        itemSelector: ".portfolio-item",
+        layoutMode: "masonry",
+      });
+    });
+    return () => iso.current && iso.current.destroy();
+  }, []);
+
+  // Filter items
+  useEffect(() => {
+    if (iso.current) {
+      iso.current.arrange({
+        filter: activeFilter === "*" ? "*" : `.${activeFilter}`,
+      });
+    }
+  }, [activeFilter]);
+
+  // Initialize GLightbox
+  useEffect(() => {
+    const lightbox = GLightbox({ selector: ".glightbox" });
+    return () => lightbox.destroy();
+  }, []);
 
   return (
     <section id="portfolio" className="portfolio section light-background">
@@ -120,13 +148,19 @@ const PortfolioSection = () => {
                 className={activeFilter === filter.value ? "filter-active" : ""}
                 onClick={() => setActiveFilter(filter.value)}
                 style={{ cursor: "pointer" }}
+                data-filter={filter.value === "*" ? "*" : `.${filter.value}`}
               >
                 {filter.label}
               </li>
             ))}
           </ul>
-          <div className="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-            {filteredItems.map((item, idx) => (
+          <div
+            className="row gy-4 isotope-container"
+            data-aos="fade-up"
+            data-aos-delay="200"
+            ref={gridRef}
+          >
+            {portfolioItems.map((item, idx) => (
               <div
                 className={`col-lg-4 col-md-6 portfolio-item isotope-item ${item.filter}`}
                 key={idx}
