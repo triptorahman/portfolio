@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import "../assets/vendor/bootstrap/css/bootstrap.min.css";
-import "../assets/vendor/bootstrap-icons/bootstrap-icons.css";
+
 import "../assets/css/main.css";
 import Header from "../components/homePageLayout/Header";
 import HeroSection from "../components/homePage/HeroSection";
@@ -50,7 +49,7 @@ const IndexPage = () => {
     window.addEventListener('load', handleScrollSpy);
     window.addEventListener('scroll', handleScrollSpy);
 
-    // Call once in case already loaded
+
     handleHashScroll();
     handleScrollSpy();
 
