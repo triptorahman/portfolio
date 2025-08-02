@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import "../assets/vendor/bootstrap/css/bootstrap.min.css";
 import "../assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "../assets/css/main.css";
-import Header from "./Header";
-import HeroSection from "./HeroSection";
-import AboutSection from "./AboutSection";
-import SkillsSection from "./SkillsSection";
-import ResumeSection from "./ResumeSection";
-import PortfolioSection from "./PortfolioSection";
-import ServicesSection from "./ServicesSection";
-import ContactSection from "./ContactSection";
-import Footer from "./Footer";
+import Header from "../components/homePageLayout/Header";
+import HeroSection from "../components/homePage/HeroSection";
+import AboutSection from "../components/homePage/AboutSection";
+import SkillsSection from "../components/homePage/SkillsSection";
+import ResumeSection from "../components/homePage/ResumeSection";
+import PortfolioSection from "../components/homePage/PortfolioSection";
+import ServicesSection from "../components/homePage/ServicesSection";
+import ContactSection from "../components/homePage/ContactSection";
+import Footer from "../components/homePageLayout/Footer";
 
 const IndexPage = () => {
   useEffect(() => {

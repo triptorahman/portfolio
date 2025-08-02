@@ -3,7 +3,7 @@ import GLightbox from "glightbox";
 import Isotope from "isotope-layout";
 import imagesLoaded from "imagesloaded";
 import "glightbox/dist/css/glightbox.css";
-import app1Img from "../assets/img/portfolio/app-1.jpg";
+import app1Img from "../../assets/img/portfolio/app-1.jpg";
 
 const portfolioItems = [
   {

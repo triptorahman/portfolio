@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Typed from "typed.js";
-import heroImg from "../assets/img/hero-bg.jpg";
+import heroImg from "../../assets/img/hero-bg.jpg";
 
 const HeroSection = () => {
   const typedRef = useRef(null);
