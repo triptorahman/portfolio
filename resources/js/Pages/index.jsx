@@ -14,7 +14,7 @@ import ContactSection from "../components/homePage/ContactSection";
 import Footer from "../components/homePageLayout/Footer";
 
 const IndexPage = () => {
-   const { heroSections } = usePage().props;
+   const { heroSections, personalInformation, userInformation } = usePage().props;
   useEffect(() => {
     // Correct scrolling position for hash links on load
     const handleHashScroll = () => {
@@ -65,11 +65,11 @@ const IndexPage = () => {
 
   return (
     <>
-      <Header />
+      <Header personalInformation={personalInformation} userInformation={userInformation} />
       <main className="main">
 
         {/* Hero Section */}
-        <HeroSection heroSections={heroSections} />
+        <HeroSection heroSections={heroSections} personalInformation={personalInformation} userInformation={userInformation} />
 
         {/* About Section */}
         <AboutSection />

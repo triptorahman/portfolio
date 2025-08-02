@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import myProfileImg from "../../assets/img/my-profile-img.jpg";
 
-const Header = () => {
+const Header = ({ personalInformation, userInformation }) => {
+  
   const [navOpen, setNavOpen] = useState(false);
 
   const handleNavToggle = () => setNavOpen((open) => !open);
@@ -14,10 +14,18 @@ const Header = () => {
         style={{ cursor: "pointer" }}
       ></i>
       <div className="profile-img">
-        <img src={myProfileImg} alt="" className="img-fluid rounded-circle" />
+        {personalInformation?.profile_image_url && (
+          <img
+            src={`/storage/${personalInformation.profile_image_url}`}
+            alt="Profile"
+            className="img-fluid rounded-circle"
+          />
+        )}
       </div>
       <a href="index.html" className="logo d-flex align-items-center justify-content-center">
-        <h1 className="sitename">Alex Smith</h1>
+        {userInformation?.name && (
+          <h1 className="sitename">{userInformation.name}</h1>
+        )}
       </a>
       <div className="social-links text-center">
         <a href="#" className="twitter"><i className="bi bi-twitter-x"></i></a>

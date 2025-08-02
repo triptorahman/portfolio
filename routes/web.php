@@ -7,12 +7,16 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\HeroSection;
+use App\Models\PersonalInformation;
+use App\Models\User;
 
 Route::get('/', function () {
     return Inertia::render('index', [
         'canLogin' => Route::has('login'),
         // 'canRegister' => Route::has('register'),
         'heroSections' => HeroSection::orderBy('sort_order', 'desc')->get(),
+        'personalInformation' => PersonalInformation::first(),
+        'userInformation' => User::select('name', 'email')->first(),
     ]);
 });
 
