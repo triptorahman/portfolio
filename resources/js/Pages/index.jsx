@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import { usePage } from "@inertiajs/react";
+
 import "../assets/css/main.css";
 import Header from "../components/homePageLayout/Header";
 import HeroSection from "../components/homePage/HeroSection";
@@ -12,6 +14,7 @@ import ContactSection from "../components/homePage/ContactSection";
 import Footer from "../components/homePageLayout/Footer";
 
 const IndexPage = () => {
+   const { heroSections } = usePage().props;
   useEffect(() => {
     // Correct scrolling position for hash links on load
     const handleHashScroll = () => {
@@ -66,7 +69,7 @@ const IndexPage = () => {
       <main className="main">
 
         {/* Hero Section */}
-        <HeroSection />
+        <HeroSection heroSections={heroSections} />
 
         {/* About Section */}
         <AboutSection />

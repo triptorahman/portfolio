@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class HeroSection extends Model
 {
-    //
+    protected $guarded = [];
 }

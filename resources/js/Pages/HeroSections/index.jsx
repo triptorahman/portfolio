@@ -56,7 +56,9 @@ export default function Index({ heroSections }) {
                                             {section.sort_order}
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                            {section.status ? 'Active' : 'Inactive'}
+                                            <span className={`badge text-white ${section.status === 'active' ? 'bg-success' : 'bg-danger'}`}>
+                                                {section.status === 'active' ? 'Active' : 'Inactive'}
+                                            </span>
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                             <Link

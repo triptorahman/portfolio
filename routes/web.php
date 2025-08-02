@@ -5,13 +5,13 @@ use App\Http\Controllers\HeroSectionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\HeroSection;
 
 Route::get('/', function () {
     return Inertia::render('index', [
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        // 'canRegister' => Route::has('register'),
+        'heroSections' => HeroSection::orderBy('sort_order', 'desc')->get(),
     ]);
 });
 

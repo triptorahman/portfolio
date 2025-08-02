@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HeroSection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule;
 
 class HeroSectionController extends Controller
 {
@@ -13,7 +14,7 @@ class HeroSectionController extends Controller
      */
     public function index()
     {
-        $heroSections = HeroSection::latest()->get();
+        $heroSections = HeroSection::orderBy('sort_order', 'asc')->get();
 
         return Inertia::render('HeroSections/index', [
             'heroSections' => $heroSections,
@@ -34,17 +35,14 @@ class HeroSectionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'title' => 'required|string|max:255|unique:hero_sections,title',
+            'sort_order' => 'required|numeric|min:1|unique:hero_sections,sort_order',
+            'status' => 'required',
         ]);
 
-        $data = $request->only(['title', 'subtitle']);
+        $data = $request->only(['title', 'sort_order', 'status']);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('hero-sections', 'public');
-        }
-
+        
         HeroSection::create($data);
 
         return redirect()->route('hero-sections.index')->with('success', 'Hero section created successfully.');
@@ -55,7 +53,7 @@ class HeroSectionController extends Controller
      */
     public function edit(HeroSection $heroSection)
     {
-        return Inertia::render('HeroSections/Edit', [
+        return Inertia::render('HeroSections/edit', [
             'heroSection' => $heroSection,
         ]);
     }
@@ -66,17 +64,22 @@ class HeroSectionController extends Controller
     public function update(Request $request, HeroSection $heroSection)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('hero_sections', 'title')->ignore($heroSection->id),
+            ],
+            'sort_order' => [
+                'required',
+                'numeric',
+                'min:1',
+                Rule::unique('hero_sections', 'sort_order')->ignore($heroSection->id),
+            ],
+            'status' => 'required',
         ]);
 
-        $data = $request->only(['title', 'subtitle']);
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('hero-sections', 'public');
-        }
-
+        $data = $request->only(['title', 'sort_order', 'status']);
         $heroSection->update($data);
 
         return redirect()->route('hero-sections.index')->with('success', 'Hero section updated successfully.');
