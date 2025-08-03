@@ -1,22 +1,26 @@
-import React from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import React from "react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
-export default function Index({ heroSections }) {
+export default function Index({ skills }) {
     const flash = usePage().props.flash || {};
     const { delete: destroy } = useForm();
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this hero section?')) {
-            destroy(route('hero-sections.destroy', id));
+        if (confirm("Are you sure you want to delete this skill?")) {
+            destroy(route("skills.destroy", id));
         }
     };
 
     return (
         <AuthenticatedLayout
-            header={<h2 className="text-xl font-semibold leading-tight text-gray-800">Hero Sections</h2>}
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                    Skill Sections
+                </h2>
+            }
         >
-            <Head title="Hero Sections" />
+            <Head title="Skill Sections" />
 
             <div className="py-6">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -28,10 +32,10 @@ export default function Index({ heroSections }) {
 
                     <div className="mb-4">
                         <Link
-                            href={route('hero-sections.create')}
+                            href={route("skills.create")}
                             className="inline-block rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
                         >
-                            + New Hero Section
+                            + New Skill
                         </Link>
                     </div>
 
@@ -41,6 +45,9 @@ export default function Index({ heroSections }) {
                                 <tr>
                                     <th className="whitespace-nowrap px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                         Title
+                                    </th>
+                                    <th className="whitespace-nowrap px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Percentage
                                     </th>
                                     <th className="whitespace-nowrap px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                         Sort Order
@@ -54,29 +61,45 @@ export default function Index({ heroSections }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {heroSections.length > 0 ? (
-                                    heroSections.map((section) => (
+                                {skills.length > 0 ? (
+                                    skills.map((section) => (
                                         <tr key={section.id}>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 {section.title}
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                                {section.percentage}%
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 {section.sort_order}
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                                <span className={`inline-block rounded px-2 py-1 text-xs font-semibold text-white ${section.status === 'active' ? 'bg-green-500' : 'bg-red-500'}`}>
-                                                    {section.status === 'active' ? 'Active' : 'Inactive'}
+                                                <span
+                                                    className={`inline-block rounded px-2 py-1 text-xs font-semibold text-white ${
+                                                        section.status === "active"
+                                                            ? "bg-green-500"
+                                                            : "bg-red-500"
+                                                    }`}
+                                                >
+                                                    {section.status === "active"
+                                                        ? "Active"
+                                                        : "Inactive"}
                                                 </span>
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                                 <Link
-                                                    href={route('hero-sections.edit', section.id)}
+                                                    href={route(
+                                                        "skills.edit",
+                                                        section.id
+                                                    )}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                 >
                                                     Edit
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(section.id)}
+                                                    onClick={() =>
+                                                        handleDelete(section.id)
+                                                    }
                                                     className="ml-4 text-red-600 hover:text-red-800"
                                                 >
                                                     Delete
@@ -86,8 +109,11 @@ export default function Index({ heroSections }) {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">
-                                            No hero sections found.
+                                        <td
+                                            colSpan="5"
+                                            className="px-6 py-4 text-center text-sm text-gray-500"
+                                        >
+                                            No skills found.
                                         </td>
                                     </tr>
                                 )}

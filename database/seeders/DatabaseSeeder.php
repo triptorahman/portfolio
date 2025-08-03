@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             HeroSectionSeeder::class,
             PersonalInformationSeeder::class,
+            SkillSeeder::class,
             // Add other seeders here as needed
         ]);
 

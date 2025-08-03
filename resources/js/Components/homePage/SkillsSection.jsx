@@ -1,34 +1,42 @@
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
-const skills = [
-  { name: "HTML", value: 100 },
-  { name: "CSS", value: 90 },
-  { name: "JavaScript", value: 75 },
-  { name: "PHP", value: 80 },
-  { name: "WordPress/CMS", value: 90 },
-  { name: "Photoshop", value: 55 },
-];
-
-const SkillsSection = () => {
+const SkillsSection = ({ skill }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.2, // 20% visible
   });
 
+  // Convert skill prop to standard format
+  const skills = skill.map((s) => ({
+    name: s.title,
+    value: s.percentage,
+  }));
+
+  // Split skills into two balanced columns
+  const middleIndex = Math.ceil(skills.length / 2);
+  const leftSkills = skills.slice(0, middleIndex);
+  const rightSkills = skills.slice(middleIndex);
+
   return (
     <section id="skills" className="skills section light-background">
       <div className="container section-title" data-aos="fade-up">
         <h2>Skills</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>
+          Necessitatibus eius consequatur ex aliquid fuga eum quidem sint
+          consectetur velit
+        </p>
       </div>
+
       <div className="container" data-aos="fade-up" data-aos-delay="100">
         <div className="row skills-content skills-animation" ref={ref}>
+          {/* Left column */}
           <div className="col-lg-6">
-            {skills.slice(0, 3).map((skill) => (
+            {leftSkills.map((skill) => (
               <div className="progress" key={skill.name}>
                 <span className="skill">
-                  <span>{skill.name}</span> <i className="val">{skill.value}%</i>
+                  <span>{skill.name}</span>{" "}
+                  <i className="val">{skill.value}%</i>
                 </span>
                 <div className="progress-bar-wrap">
                   <div
@@ -46,11 +54,14 @@ const SkillsSection = () => {
               </div>
             ))}
           </div>
+
+          {/* Right column */}
           <div className="col-lg-6">
-            {skills.slice(3).map((skill) => (
+            {rightSkills.map((skill) => (
               <div className="progress" key={skill.name}>
                 <span className="skill">
-                  <span>{skill.name}</span> <i className="val">{skill.value}%</i>
+                  <span>{skill.name}</span>{" "}
+                  <i className="val">{skill.value}%</i>
                 </span>
                 <div className="progress-bar-wrap">
                   <div

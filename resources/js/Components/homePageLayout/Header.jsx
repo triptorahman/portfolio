@@ -107,8 +107,14 @@ const Header = ({ personalInformation, userInformation }) => {
                         </a>
                     </li>
                     <li>
+                        <a href="#skills">
+                            <i className="bi bi-file-earmark-text navicon"></i>
+                            Skills
+                        </a>
+                    </li>
+                    <li>
                         <a href="#resume">
-                            <i className="bi bi-file-earmark-text navicon"></i>{" "}
+                            <i className="bi bi-file-earmark-text navicon"></i>
                             Resume
                         </a>
                     </li>

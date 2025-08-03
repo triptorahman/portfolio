@@ -3,12 +3,14 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HeroSectionController;
 use App\Http\Controllers\PersonalInformationController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\HeroSection;
 use App\Models\PersonalInformation;
 use App\Models\User;
+use App\Models\Skill;
 
 Route::get('/', function () {
     return Inertia::render('index', [
@@ -17,6 +19,7 @@ Route::get('/', function () {
         'heroSections' => HeroSection::orderBy('sort_order', 'asc')->get(),
         'personalInformation' => PersonalInformation::first(),
         'userInformation' => User::select('name', 'email')->first(),
+        'skill' => Skill::orderBy('sort_order', 'asc')->get(),
     ]);
 });
 
@@ -30,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('hero-sections', HeroSectionController::class);
     Route::resource('personal-information', PersonalInformationController::class);
+    Route::resource('skills', SkillController::class);
 });
 
 require __DIR__.'/auth.php';
