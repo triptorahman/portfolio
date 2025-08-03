@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('whatsapp_url')->nullable();
             $table->string('skype_url')->nullable();
             $table->string('profile_image_url')->nullable();
+            $table->string('website_url')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('degree')->nullable();
+            $table->string('address')->nullable();
+            $table->enum('freelance', ['Available', 'Unavailble'])->default('Available');
             $table->timestamps();
         });
     }

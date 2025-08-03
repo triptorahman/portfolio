@@ -1,51 +1,63 @@
 import React from "react";
-import myProfileImg from "../../assets/img/my-profile-img.jpg";
 
-const AboutSection = () => (
-  <section id="about" className="about section">
-    <div className="container section-title" data-aos="fade-up">
-      <h2>About</h2>
-      <p>
-        Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.
-      </p>
-    </div>
+const AboutSection = ({ personalInformation, heroSections }) => {
+  // Extract titles as strings
+  const titles = heroSections?.map(section => section.title) || [];
 
-    <div className="container" data-aos="fade-up" data-aos-delay="100">
-      <div className="row gy-4 justify-content-center">
-        <div className="col-lg-4">
-          <img src={myProfileImg} className="img-fluid" alt="" />
-        </div>
-        <div className="col-lg-8 content">
-          <h2>UI/UX Designer &amp; Web Developer.</h2>
-          <p className="fst-italic py-3">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-          <div className="row">
-            <div className="col-lg-6">
-              <ul>
-                <li><i className="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>1 May 1995</span></li>
-                <li><i className="bi bi-chevron-right"></i> <strong>Website:</strong> <span>www.example.com</span></li>
-                <li><i className="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+123 456 7890</span></li>
-                <li><i className="bi bi-chevron-right"></i> <strong>City:</strong> <span>New York, USA</span></li>
-              </ul>
-            </div>
-            <div className="col-lg-6">
-              <ul>
-                <li><i className="bi bi-chevron-right"></i> <strong>Age:</strong> <span>30</span></li>
-                <li><i className="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Master</span></li>
-                <li><i className="bi bi-chevron-right"></i> <strong>Email:</strong> <span>email@example.com</span></li>
-                <li><i className="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
-              </ul>
-            </div>
+  return (
+    <section id="about" className="about section">
+      <div className="container section-title" data-aos="fade-up">
+        <h2>About</h2>
+        I am Md Samiur Rahman, a dedicated Software Engineer and Full-Stack Developer with over 4 years of experience. I specialize in back-end development with PHP frameworks (Laravel, CodeIgniter, CakePHP) and Java Spring Boot, complemented by front-end skills in JavaScript and ReactJS. My expertise spans microservices, CMS, and ERP systems, with a strong focus on system design and collaborative Agile development.
+      </div>
+
+      <div className="container" data-aos="fade-up" data-aos-delay="100">
+        <div className="row gy-4 justify-content-center">
+          <div className="col-lg-4">
+            {personalInformation?.profile_image_url && (
+              <img
+                src={`/storage/${personalInformation.profile_image_url}`}
+                className="img-fluid"
+                alt="Profile Image"
+              />
+            )}
           </div>
-          <p className="py-3">
-            Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.
-            Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque.
-          </p>
+          <div className="col-lg-8 content">
+            <h2>
+              {titles.map((title, index) => (
+                <span key={index}>
+                  {title}
+                  {index !== titles.length - 1 && " | "}
+                </span>
+              ))}
+            </h2>
+            <p className="fst-italic py-3">
+              Passionate about clean code, scalable architecture, and modern web technologies.
+            </p>
+            <div className="row">
+              <div className="col-lg-6">
+                <ul>
+                  <li><i className="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>{personalInformation?.degree || ""}</span></li>
+                  <li><i className="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>{personalInformation?.phone_number || ""}</span></li>
+                  <li><i className="bi bi-chevron-right"></i> <strong>Address:</strong> <span>{personalInformation?.address || "New York, USA"}</span></li>
+                </ul>
+              </div>
+              <div className="col-lg-6">
+                <ul>
+                  <li><i className="bi bi-chevron-right"></i> <strong>Email:</strong> <span>{personalInformation?.email || ""}</span></li>
+                  <li><i className="bi bi-chevron-right"></i> <strong>Github:</strong> <span>{personalInformation?.github_url || ""}</span></li>
+                  <li><i className="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>{personalInformation?.freelance || ""}</span></li>
+                </ul>
+              </div>
+            </div>
+            <p className="py-3">
+              I thrive in dynamic environments and love to work on challenging projects that demand creative problem-solving and continuous learning.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default AboutSection;

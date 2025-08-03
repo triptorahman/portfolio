@@ -12,6 +12,12 @@ export default function Edit({ personalInformation }) {
         linkedin_url: personalInformation?.linkedin_url ?? "",
         whatsapp_url: personalInformation?.whatsapp_url ?? "",
         skype_url: personalInformation?.skype_url ?? "",
+        website_url: personalInformation?.website_url ?? "",
+        phone_number: personalInformation?.phone_number ?? "",
+        email: personalInformation?.email ?? "",
+        address: personalInformation?.address ?? "",
+        freelance: personalInformation?.freelance ?? "Available",
+        degree: personalInformation?.degree ?? "",
     });
 
     function handleSubmit(e) {
@@ -52,7 +58,8 @@ export default function Edit({ personalInformation }) {
                             onSubmit={handleSubmit}
                             encType="multipart/form-data"
                         >
-                            {/* Github URL */}
+                            {/* Existing Fields (GitHub, LinkedIn, WhatsApp, Skype) */}
+                            {/* GitHub URL */}
                             <div className="mb-4">
                                 <label
                                     htmlFor="github_url"
@@ -62,7 +69,6 @@ export default function Edit({ personalInformation }) {
                                 </label>
                                 <input
                                     type="url"
-                                    name="github_url"
                                     id="github_url"
                                     value={data.github_url}
                                     onChange={(e) =>
@@ -71,7 +77,7 @@ export default function Edit({ personalInformation }) {
                                     className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
                                 />
                                 {errors.github_url && (
-                                    <div className="mt-1 text-sm text-red-600">
+                                    <div className="text-sm text-red-600">
                                         {errors.github_url}
                                     </div>
                                 )}
@@ -87,7 +93,6 @@ export default function Edit({ personalInformation }) {
                                 </label>
                                 <input
                                     type="url"
-                                    name="linkedin_url"
                                     id="linkedin_url"
                                     value={data.linkedin_url}
                                     onChange={(e) =>
@@ -96,7 +101,7 @@ export default function Edit({ personalInformation }) {
                                     className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
                                 />
                                 {errors.linkedin_url && (
-                                    <div className="mt-1 text-sm text-red-600">
+                                    <div className="text-sm text-red-600">
                                         {errors.linkedin_url}
                                     </div>
                                 )}
@@ -112,7 +117,6 @@ export default function Edit({ personalInformation }) {
                                 </label>
                                 <input
                                     type="url"
-                                    name="whatsapp_url"
                                     id="whatsapp_url"
                                     value={data.whatsapp_url}
                                     onChange={(e) =>
@@ -121,14 +125,14 @@ export default function Edit({ personalInformation }) {
                                     className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
                                 />
                                 {errors.whatsapp_url && (
-                                    <div className="mt-1 text-sm text-red-600">
+                                    <div className="text-sm text-red-600">
                                         {errors.whatsapp_url}
                                     </div>
                                 )}
                             </div>
 
                             {/* Skype URL */}
-                            <div className="mb-6">
+                            <div className="mb-4">
                                 <label
                                     htmlFor="skype_url"
                                     className="block text-sm font-medium text-gray-700"
@@ -137,7 +141,6 @@ export default function Edit({ personalInformation }) {
                                 </label>
                                 <input
                                     type="url"
-                                    name="skype_url"
                                     id="skype_url"
                                     value={data.skype_url}
                                     onChange={(e) =>
@@ -146,8 +149,156 @@ export default function Edit({ personalInformation }) {
                                     className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
                                 />
                                 {errors.skype_url && (
-                                    <div className="mt-1 text-sm text-red-600">
+                                    <div className="text-sm text-red-600">
                                         {errors.skype_url}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Degree */}
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="degree"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Degree
+                                </label>
+                                <input
+                                    type="text"
+                                    id="degree"
+                                    value={data.degree}
+                                    onChange={(e) =>
+                                        setData("degree", e.target.value)
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                />
+                                {errors.degree && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.degree}
+                                    </div>
+                                )}
+                            </div>
+
+
+                            {/* Website URL */}
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="website_url"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Website URL
+                                </label>
+                                <input
+                                    type="url"
+                                    id="website_url"
+                                    value={data.website_url}
+                                    onChange={(e) =>
+                                        setData("website_url", e.target.value)
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                />
+                                {errors.website_url && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.website_url}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Phone Number */}
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="phone_number"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Phone Number
+                                </label>
+                                <input
+                                    type="text"
+                                    id="phone_number"
+                                    value={data.phone_number}
+                                    onChange={(e) =>
+                                        setData("phone_number", e.target.value)
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                />
+                                {errors.phone_number && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.phone_number}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Email */}
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="email"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={data.email}
+                                    onChange={(e) =>
+                                        setData("email", e.target.value)
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                />
+                                {errors.email && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.email}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Address */}
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="address"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Address
+                                </label>
+                                <textarea
+                                    id="address"
+                                    value={data.address}
+                                    onChange={(e) =>
+                                        setData("address", e.target.value)
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                />
+                                {errors.address && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.address}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Freelance */}
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="freelance"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Freelance Status
+                                </label>
+                                <select
+                                    id="freelance"
+                                    value={data.freelance}
+                                    onChange={(e) =>
+                                        setData("freelance", e.target.value)
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                >
+                                    <option value="Available">Available</option>
+                                    <option value="Unavailable">
+                                        Unavailable
+                                    </option>
+                                </select>
+                                {errors.freelance && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.freelance}
                                     </div>
                                 )}
                             </div>
@@ -169,7 +320,6 @@ export default function Edit({ personalInformation }) {
                                 )}
                                 <input
                                     type="file"
-                                    name="hero_banner_image_url"
                                     id="hero_banner_image_url"
                                     accept="image/*"
                                     onChange={(e) =>
@@ -181,14 +331,14 @@ export default function Edit({ personalInformation }) {
                                     className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
                                 />
                                 {errors.hero_banner_image_url && (
-                                    <div className="mt-1 text-sm text-red-600">
+                                    <div className="text-sm text-red-600">
                                         {errors.hero_banner_image_url}
                                     </div>
                                 )}
                             </div>
 
                             {/* Profile Image */}
-                            <div className="mb-4">
+                            <div className="mb-6">
                                 <label
                                     htmlFor="profile_image_url"
                                     className="block text-sm font-medium text-gray-700"
@@ -198,13 +348,12 @@ export default function Edit({ personalInformation }) {
                                 {personalInformation.profile_image_url && (
                                     <img
                                         src={`/storage/${personalInformation.profile_image_url}`}
-                                        alt="Profile Image"
+                                        alt="Profile"
                                         className="mb-2 h-20 w-auto rounded object-cover"
                                     />
                                 )}
                                 <input
                                     type="file"
-                                    name="profile_image_url"
                                     id="profile_image_url"
                                     accept="image/*"
                                     onChange={(e) =>
@@ -216,12 +365,13 @@ export default function Edit({ personalInformation }) {
                                     className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
                                 />
                                 {errors.profile_image_url && (
-                                    <div className="mt-1 text-sm text-red-600">
+                                    <div className="text-sm text-red-600">
                                         {errors.profile_image_url}
                                     </div>
                                 )}
                             </div>
 
+                            {/* Submit Buttons */}
                             <div className="flex items-center justify-between">
                                 <Link
                                     href={route("personal-information.index")}

@@ -40,6 +40,12 @@ class PersonalInformationController extends Controller
             'linkedin_url' => 'nullable|url',
             'whatsapp_url' => 'nullable|url',
             'skype_url' => 'nullable|url',
+            'website_url' => 'nullable|url',
+            'phone_number' => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9\-()\s]+$/'],
+            'email' => 'nullable|email|max:255',
+            'degree' => 'nullable|max:255',
+            'address' => 'nullable|string|max:1000',
+            'freelance' => 'required|in:Available,Unavailable',
         ], [], [
             'hero_banner_image_url' => 'Hero Banner Image',
             'profile_image_url' => 'Profile Image',
@@ -47,6 +53,12 @@ class PersonalInformationController extends Controller
             'linkedin_url' => 'LinkedIn URL',
             'whatsapp_url' => 'WhatsApp URL',
             'skype_url' => 'Skype URL',
+            'website_url' => 'Website URL',
+            'phone_number' => 'Phone Number',
+            'email' => 'Email Address',
+            'degree' => 'Degree',
+            'address' => 'Address',
+            'freelance' => 'Freelance Status',
         ]);
 
         $fileUploadService = new FileUploadService();
@@ -89,7 +101,7 @@ class PersonalInformationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    
+
 
     /**
      * Remove the specified resource from storage.

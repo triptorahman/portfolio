@@ -14,7 +14,7 @@ Route::get('/', function () {
     return Inertia::render('index', [
         'canLogin' => Route::has('login'),
         // 'canRegister' => Route::has('register'),
-        'heroSections' => HeroSection::orderBy('sort_order', 'desc')->get(),
+        'heroSections' => HeroSection::orderBy('sort_order', 'asc')->get(),
         'personalInformation' => PersonalInformation::first(),
         'userInformation' => User::select('name', 'email')->first(),
     ]);

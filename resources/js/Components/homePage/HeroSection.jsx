@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import Typed from "typed.js";
-import heroImg from "../../assets/img/hero-bg.jpg";
 
 const HeroSection = ({ heroSections, personalInformation, userInformation }) => {
   const typedRef = useRef(null);
@@ -23,7 +22,7 @@ const HeroSection = ({ heroSections, personalInformation, userInformation }) => 
     <section id="hero" className="hero section dark-background">
       {personalInformation?.hero_banner_image_url && (
           <img src={`/storage/${personalInformation.hero_banner_image_url}`} alt="" data-aos="fade-in" className="" />
-        )}
+      )}
       <div className="container" data-aos="fade-up" data-aos-delay="100">
         {userInformation?.name && (
           <h2>{userInformation.name}</h2>

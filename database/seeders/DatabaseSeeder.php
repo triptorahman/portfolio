@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\PersonalInformation;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call([
+            HeroSectionSeeder::class,
+            PersonalInformationSeeder::class,
+            // Add other seeders here as needed
+        ]);
 
         User::factory()->create([
             'name' => 'Md Samiur Rahman',
@@ -25,10 +29,7 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        PersonalInformation::factory()->create([   
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        
 
     }
 }
