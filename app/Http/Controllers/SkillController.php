@@ -37,7 +37,12 @@ class SkillController extends Controller
             'title' => 'required|string|max:255|unique:skills,title',
             'percentage' => 'required|numeric|min:1|max:100',
             'sort_order' => 'required|numeric|min:1|unique:skills,sort_order',
-            'status' => 'required',
+            'status' => 'required|in:active,inactive',
+        ], [], [
+            'title' => 'Title',
+            'percentage' => 'Percentage',
+            'sort_order' => 'Sort Order',
+            'status' => 'Status',
         ]);
 
         $data = $request->only(['title', 'percentage', 'sort_order', 'status']);
@@ -85,7 +90,12 @@ class SkillController extends Controller
                 'min:1',
                 Rule::unique('skills', 'sort_order')->ignore($skill->id),
             ],
-            'status' => 'required',
+            'status' => 'required|in:active,inactive',
+        ], [], [
+            'title' => 'Title',
+            'percentage' => 'Percentage',
+            'sort_order' => 'Sort Order',
+            'status' => 'Status',
         ]);
 
         $data = $request->only(['title', 'percentage', 'sort_order', 'status']);

@@ -14,7 +14,7 @@ import ContactSection from "../components/homePage/ContactSection";
 import Footer from "../components/homePageLayout/Footer";
 
 const IndexPage = () => {
-   const { heroSections, personalInformation, userInformation, skill } = usePage().props;
+   const { heroSections, personalInformation, userInformation, skill, experiences } = usePage().props;
   //  console.log("heroSections", heroSections);
   useEffect(() => {
     // Correct scrolling position for hash links on load
@@ -79,7 +79,7 @@ const IndexPage = () => {
         <SkillsSection skill={skill} />
 
         {/* Resume Section */}
-        <ResumeSection />
+        <ResumeSection experiences={experiences} />
 
         {/* Portfolio Section */}
         <PortfolioSection />

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HeroSectionController;
 use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\ExperienceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,6 +12,7 @@ use App\Models\HeroSection;
 use App\Models\PersonalInformation;
 use App\Models\User;
 use App\Models\Skill;
+use App\Models\Experience;
 
 Route::get('/', function () {
     return Inertia::render('index', [
@@ -20,6 +22,8 @@ Route::get('/', function () {
         'personalInformation' => PersonalInformation::first(),
         'userInformation' => User::select('name', 'email')->first(),
         'skill' => Skill::orderBy('sort_order', 'asc')->get(),
+        'experiences' => Experience::where('status','active')->orderBy('sort_order', 'asc')->get(),
+        'canCreateAccount' => false, // Disable registration
     ]);
 });
 
@@ -34,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('hero-sections', HeroSectionController::class);
     Route::resource('personal-information', PersonalInformationController::class);
     Route::resource('skills', SkillController::class);
+    Route::resource('experiences', ExperienceController::class);
 });
 
 require __DIR__.'/auth.php';
