@@ -1,6 +1,6 @@
 import React from "react";
 
-const ResumeSection = ({ experiences }) => {
+const ResumeSection = ({ experiences, personalInformation }) => {
     return (
         <section id="resume" className="resume section">
             <div className="container section-title" data-aos="fade-up">
@@ -13,14 +13,15 @@ const ResumeSection = ({ experiences }) => {
                     commodi quidem hic quas.
                 </p>
 
-                {/* Download CV Button */}
-                <a
-                    href="/storage/cv.pdf" // Update this path as needed
-                    download
-                    className="btn btn-primary mt-3"
-                >
-                    Download CV
-                </a>
+                {personalInformation?.cv_url && (
+                    <a
+                        href={`/storage/${personalInformation.cv_url}`} // ✅ Correct
+                        download
+                        className="btn btn-primary mt-3"
+                    >
+                        Download CV
+                    </a>
+                )}
             </div>
 
             <div className="container">
@@ -39,10 +40,6 @@ const ResumeSection = ({ experiences }) => {
                                 <div className="resume-item" key={index}>
                                     <h4>{exp.designation}</h4>
                                     <h5>
-                                        <i className="bi bi-calendar3 me-2"></i>
-                                        {exp.duration}
-                                    </h5>
-                                    <h5>
                                         <i className="bi bi-building me-2"></i>
                                         {exp.company_name}
                                     </h5>
@@ -50,7 +47,10 @@ const ResumeSection = ({ experiences }) => {
                                         <i className="bi bi-geo-alt me-2"></i>
                                         {exp.company_address}
                                     </h5>
-
+                                    <h5>
+                                        <i className="bi bi-calendar3 me-2"></i>
+                                        {exp.duration}
+                                    </h5>
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: exp.work_description,

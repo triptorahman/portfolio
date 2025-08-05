@@ -93,7 +93,7 @@ const IndexPage = () => {
         <SkillsSection skill={skill} />
 
         {/* Resume Section */}
-        <ResumeSection experiences={experiences} />
+        <ResumeSection experiences={experiences} personalInformation={personalInformation} />
 
         {/* Portfolio Section */}
         <PortfolioSection />

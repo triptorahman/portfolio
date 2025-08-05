@@ -8,6 +8,7 @@ export default function Edit({ personalInformation }) {
     const { data, setData, post, processing, errors } = useForm({
         hero_banner_image_url: null,
         profile_image_url: null,
+        cv_url: null,
         github_url: personalInformation?.github_url ?? "",
         linkedin_url: personalInformation?.linkedin_url ?? "",
         whatsapp_url: personalInformation?.whatsapp_url ?? "",
@@ -178,7 +179,6 @@ export default function Edit({ personalInformation }) {
                                     </div>
                                 )}
                             </div>
-
 
                             {/* Website URL */}
                             <div className="mb-4">
@@ -367,6 +367,45 @@ export default function Edit({ personalInformation }) {
                                 {errors.profile_image_url && (
                                     <div className="text-sm text-red-600">
                                         {errors.profile_image_url}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* CV File Upload */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="cv_url"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    CV File (PDF)
+                                </label>
+
+                                {personalInformation.cv_url && (
+                                    <div className="my-2">
+                                        <a
+                                            href={`/storage/${personalInformation.cv_url}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-indigo-600 underline"
+                                        >
+                                            View Current CV
+                                        </a>
+                                    </div>
+                                )}
+
+                                <input
+                                    type="file"
+                                    id="cv_url"
+                                    accept=".pdf"
+                                    onChange={(e) =>
+                                        setData("cv_url", e.target.files[0])
+                                    }
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                                />
+
+                                {errors.cv_url && (
+                                    <div className="text-sm text-red-600">
+                                        {errors.cv_url}
                                     </div>
                                 )}
                             </div>

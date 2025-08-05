@@ -46,6 +46,7 @@ class PersonalInformationController extends Controller
             'degree' => 'nullable|max:255',
             'address' => 'nullable|string|max:1000',
             'freelance' => 'required|in:Available,Unavailable',
+            'cv_url' => 'nullable|file|mimes:pdf|max:2048',
         ], [], [
             'hero_banner_image_url' => 'Hero Banner Image',
             'profile_image_url' => 'Profile Image',
@@ -59,6 +60,7 @@ class PersonalInformationController extends Controller
             'degree' => 'Degree',
             'address' => 'Address',
             'freelance' => 'Freelance Status',
+            'cv_url' => 'CV File',
         ]);
 
         $fileUploadService = new FileUploadService();
@@ -78,6 +80,13 @@ class PersonalInformationController extends Controller
             $validated['profile_image_url'] = $fileUploadService->saveFile($request->file('profile_image_url'), 'personal-info');
         } else {
             $validated['profile_image_url'] = $personalInformation->profile_image_url;
+        }
+
+        if ($request->hasFile('cv_url')) {
+            $fileUploadService->deleteFile($personalInformation->cv_url);
+            $validated['cv_url'] = $fileUploadService->saveFile($request->file('cv_url'), 'personal-info');
+        } else {
+            $validated['cv_url'] = $personalInformation->cv_url;
         }
 
         $personalInformation->update($validated);
