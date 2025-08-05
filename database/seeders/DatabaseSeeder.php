@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             HeroSectionSeeder::class,
             PersonalInformationSeeder::class,
             SkillSeeder::class,
+            ExperienceSeeder::class,
             // Add other seeders here as needed
         ]);
 
