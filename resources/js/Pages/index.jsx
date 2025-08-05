@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 
 import { usePage } from "@inertiajs/react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import "../assets/css/main.css";
 import Header from "../components/homePageLayout/Header";
@@ -17,52 +19,64 @@ const IndexPage = () => {
    const { heroSections, personalInformation, userInformation, skill, experiences } = usePage().props;
   //  console.log("heroSections", heroSections);
   useEffect(() => {
-    // Correct scrolling position for hash links on load
-    const handleHashScroll = () => {
-      if (window.location.hash) {
-        const section = document.querySelector(window.location.hash);
-        if (section) {
-          setTimeout(() => {
-            const scrollMarginTop = getComputedStyle(section).scrollMarginTop;
-            window.scrollTo({
-              top: section.offsetTop - parseInt(scrollMarginTop),
-              behavior: "smooth",
-            });
-          }, 100);
-        }
+  // AOS init
+  AOS.init({
+    duration: 600,
+    easing: 'ease-in-out',
+    once: true,
+    mirror: false,
+  });
+
+  // Scroll to section if hash present
+  const handleHashScroll = () => {
+    if (window.location.hash) {
+      const section = document.querySelector(window.location.hash);
+      if (section) {
+        setTimeout(() => {
+          const scrollMarginTop = getComputedStyle(section).scrollMarginTop;
+          window.scrollTo({
+            top: section.offsetTop - parseInt(scrollMarginTop),
+            behavior: "smooth",
+          });
+        }, 100);
       }
-    };
+    }
+  };
 
-    // Navmenu Scrollspy
-    const handleScrollSpy = () => {
-      document.querySelectorAll('.navmenu a').forEach(link => {
-        if (!link.hash) return;
-        const section = document.querySelector(link.hash);
-        if (!section) return;
-        const position = window.scrollY + 200;
-        if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-          document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    };
+  // Scrollspy
+  const handleScrollSpy = () => {
+    document.querySelectorAll('.navmenu a').forEach(link => {
+      if (!link.hash) return;
+      const section = document.querySelector(link.hash);
+      if (!section) return;
+      const position = window.scrollY + 200;
+      if (
+        position >= section.offsetTop &&
+        position <= section.offsetTop + section.offsetHeight
+      ) {
+        document.querySelectorAll('.navmenu a.active').forEach(activeLink => {
+          activeLink.classList.remove('active');
+        });
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  };
 
-    window.addEventListener('load', handleHashScroll);
-    window.addEventListener('load', handleScrollSpy);
-    window.addEventListener('scroll', handleScrollSpy);
+  window.addEventListener('load', handleHashScroll);
+  window.addEventListener('load', handleScrollSpy);
+  window.addEventListener('scroll', handleScrollSpy);
 
+  handleHashScroll();
+  handleScrollSpy();
 
-    handleHashScroll();
-    handleScrollSpy();
-
-    return () => {
-      window.removeEventListener('load', handleHashScroll);
-      window.removeEventListener('load', handleScrollSpy);
-      window.removeEventListener('scroll', handleScrollSpy);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener('load', handleHashScroll);
+    window.removeEventListener('load', handleScrollSpy);
+    window.removeEventListener('scroll', handleScrollSpy);
+  };
+}, []);
 
   return (
     <>
