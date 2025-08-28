@@ -62,6 +62,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Experience
                                 </NavLink>
+
+                                <NavLink
+                                    href={route("portfolio-types.index")}
+                                    active={route().current(
+                                        "portfolio-types.index"
+                                    )}
+                                >
+                                    Portfolio Types
+                                </NavLink>
                             </div>
                         </div>
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\HeroSectionController;
 use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\PortfolioTypeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,6 +14,7 @@ use App\Models\PersonalInformation;
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\Experience;
+use App\Models\PortfolioType;
 
 Route::get('/', function () {
     return Inertia::render('index', [
@@ -39,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('personal-information', PersonalInformationController::class);
     Route::resource('skills', SkillController::class);
     Route::resource('experiences', ExperienceController::class);
+    Route::resource('portfolio-types', PortfolioTypeController::class);
 });
 
 require __DIR__.'/auth.php';
