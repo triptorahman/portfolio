@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Portfolio;
 use App\Models\PortfolioType;
+use App\Models\PortfolioDetailImage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Services\FileUploadService;
@@ -49,6 +50,8 @@ class PortfolioController extends Controller
             'project_url' => 'nullable|url|max:255',
             'description' => 'required|string',
             'image_url' => 'required|file|mimes:jpg,jpeg,png,svg|max:2048',
+            'details_images' => 'required|array',
+            'details_images.*' => 'file|mimes:jpg,jpeg,png,svg|max:2048',
         ], [], [
             'title' => 'Title',
             'sort_order' => 'Sort Order',
@@ -59,6 +62,8 @@ class PortfolioController extends Controller
             'project_url' => 'Project URL',
             'description' => 'Description',
             'image_url' => 'Project Image',
+            'details_images' => 'Details Images',
+            'details_images.*' => 'Details Image',
         ]);
 
         $fileUploadService = new FileUploadService();
@@ -78,7 +83,16 @@ class PortfolioController extends Controller
             $data['image_url'] = $fileUploadService->saveFile($request->file('image_url'), 'portfolio');
         }
 
-        Portfolio::create($data);
+        $portfolio = Portfolio::create($data);
+
+        if ($request->hasFile('details_images')) {
+            foreach ($request->file('details_images') as $file) {
+                $image = new PortfolioDetailImage();
+                $image->portfolio_id = $portfolio->id;
+                $image->image_url = $fileUploadService->saveFile($file, 'portfolio/details');
+                $image->save();
+            }
+        }
 
         return redirect()->route('portfolios.index')->with('success', 'Portfolio created successfully.');
     }
@@ -98,9 +112,12 @@ class PortfolioController extends Controller
     {
         $portfolio_types = PortfolioType::where('status', 'active')->orderBy('sort_order', 'asc')->get();
 
+        $portfolio_details_images = PortfolioDetailImage::where('portfolio_id', $portfolio->id)->get();
+
         return Inertia::render('Portfolios/edit', [
             'portfolio' => $portfolio,
             'portfolio_types' => $portfolio_types,
+            'portfolio_details_images' => $portfolio_details_images,
         ]);
     }
 
@@ -109,7 +126,6 @@ class PortfolioController extends Controller
      */
     public function update(Request $request, Portfolio $portfolio)
     {
-        // dd($request->all());
         $request->validate([
             'title' => [
                 'required',
@@ -154,6 +170,10 @@ class PortfolioController extends Controller
                 'image',
                 'max:2048',
             ],
+            'details_images' => 'nullable|array',
+            'details_images.*' => 'file|mimes:jpg,jpeg,png,svg|max:2048',
+            'deleted_details_images' => 'nullable|array',
+            'deleted_details_images.*' => 'integer|exists:portfolio_detail_images,id',
         ], [], [
             'title' => 'Title',
             'sort_order' => 'Sort Order',
@@ -164,6 +184,8 @@ class PortfolioController extends Controller
             'project_url' => 'Project URL',
             'description' => 'Description',
             'image_url' => 'Project Image',
+            'details_images' => 'Details Images',
+            'details_images.*' => 'Details Image',
         ]);
 
         $fileUploadService = new FileUploadService();
@@ -180,15 +202,33 @@ class PortfolioController extends Controller
         ]);
 
         if ($request->hasFile('image_url')) {
-
             $fileUploadService->deleteFile($portfolio->image_url);
             $data['image_url'] = $fileUploadService->saveFile($request->file('image_url'), 'portfolio');
         } else {
-
             $data['image_url'] = $portfolio->image_url;
         }
 
         $portfolio->update($data);
+
+        // Handle deleted details images
+        if ($request->filled('deleted_details_images')) {
+            $deletedIds = $request->input('deleted_details_images');
+            $imagesToDelete = PortfolioDetailImage::whereIn('id', $deletedIds)->get();
+            foreach ($imagesToDelete as $img) {
+                $fileUploadService->deleteFile($img->image_url);
+                $img->delete();
+            }
+        }
+
+        // Handle new details images
+        if ($request->hasFile('details_images')) {
+            foreach ($request->file('details_images') as $file) {
+                $image = new PortfolioDetailImage();
+                $image->portfolio_id = $portfolio->id;
+                $image->image_url = $fileUploadService->saveFile($file, 'portfolio/details');
+                $image->save();
+            }
+        }
 
         return redirect()->route('portfolios.index')->with('success', 'Portfolio updated successfully.');
     }

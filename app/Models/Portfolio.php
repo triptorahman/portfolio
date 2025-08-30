@@ -12,4 +12,8 @@ class Portfolio extends Model
     public function portfolioType(){
         return $this->belongsTo(PortfolioType::class);
     }
+
+    public function detailImages(){
+        return $this->hasMany(PortfolioDetailImage::class);
+    }
 }

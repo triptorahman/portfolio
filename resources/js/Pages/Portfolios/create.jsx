@@ -15,8 +15,11 @@ export default function Create({ portfolio_types }) {
         project_url: "",
         description: "",
         image_url: null,
+        details_images: [], // new field for multiple images
     });
 
+    const [detailsImagePreviews, setDetailsImagePreviews] = React.useState([]);
+    const [projectImagePreview, setProjectImagePreview] = React.useState(null);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData(name, value);
@@ -234,12 +237,11 @@ export default function Create({ portfolio_types }) {
                                         id="image_url"
                                         name="image_url"
                                         accept=".jpg,.jpeg,.png,.svg"
-                                        onChange={(e) =>
-                                            setData(
-                                                "image_url",
-                                                e.target.files[0]
-                                            )
-                                        }
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            setData("image_url", file);
+                                            setProjectImagePreview(file ? URL.createObjectURL(file) : null);
+                                        }}
                                         className={`form-control ${
                                             errors.image_url ? "is-invalid" : ""
                                         }`}
@@ -247,6 +249,46 @@ export default function Create({ portfolio_types }) {
                                     {errors.image_url && (
                                         <div className="invalid-feedback d-block">
                                             {errors.image_url}
+                                        </div>
+                                    )}
+                                    {/* Preview selected project image */}
+                                    {projectImagePreview && (
+                                        <div className="mt-2">
+                                            <img src={projectImagePreview} alt="Project Preview" style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 8 }} />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Multi-image upload for details images */}
+                                <div className="form-group mb-3">
+                                    <label htmlFor="details_images" className="form-label">
+                                        Details Images
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="details_images"
+                                        name="details_images"
+                                        accept=".jpg,.jpeg,.png,.svg"
+                                        multiple
+                                        onChange={(e) => {
+                                            const files = Array.from(e.target.files);
+                                            setData("details_images", files);
+                                            // Preview
+                                            setDetailsImagePreviews(files.map(file => URL.createObjectURL(file)));
+                                        }}
+                                        className={`form-control ${errors.details_images ? "is-invalid" : ""}`}
+                                    />
+                                    {errors.details_images && (
+                                        <div className="invalid-feedback d-block">
+                                            {errors.details_images}
+                                        </div>
+                                    )}
+                                    {/* Preview selected images */}
+                                    {detailsImagePreviews.length > 0 && (
+                                        <div className="mt-2 d-flex flex-wrap gap-2">
+                                            {detailsImagePreviews.map((src, idx) => (
+                                                <img key={idx} src={src} alt={`Details Preview ${idx + 1}`} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
+                                            ))}
                                         </div>
                                     )}
                                 </div>
