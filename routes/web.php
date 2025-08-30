@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('experiences', ExperienceController::class);
     Route::resource('portfolio-types', PortfolioTypeController::class);
     Route::resource('portfolios', PortfolioController::class);
+    Route::post('/portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
 });
 
 require __DIR__.'/auth.php';

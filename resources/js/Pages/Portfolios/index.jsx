@@ -64,7 +64,6 @@ export default function Index({ portfolios }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {console.log(portfolios)}
                                 {portfolios.length > 0 ? (
                                     portfolios.map((section) => (
                                         <tr key={section.id}>

@@ -5,7 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 export default function Edit({ portfolio, portfolio_types }) {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         title: portfolio.title || "",
         sort_order: portfolio.sort_order || "",
         status: portfolio.status === "active" ? "active" : "inactive",
@@ -18,8 +18,8 @@ export default function Edit({ portfolio, portfolio_types }) {
     });
 
     function handleSubmit(e) {
-        e.preventDefault();
-        put(route("portfolios.update", portfolio.id));
+    e.preventDefault();
+    post(route("portfolios.update", portfolio.id));
     }
 
     // General handler for all fields
