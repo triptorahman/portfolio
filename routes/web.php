@@ -6,6 +6,7 @@ use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\PortfolioTypeController;
+use App\Http\Controllers\PortfolioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('skills', SkillController::class);
     Route::resource('experiences', ExperienceController::class);
     Route::resource('portfolio-types', PortfolioTypeController::class);
+    Route::resource('portfolios', PortfolioController::class);
 });
 
 require __DIR__.'/auth.php';

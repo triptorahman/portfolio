@@ -2,13 +2,13 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
-export default function Index({ portfolio_types }) {
+export default function Index({ portfolios }) {
     const flash = usePage().props.flash || {};
     const { delete: destroy } = useForm();
 
     const handleDelete = (id) => {
         if (confirm("Are you sure you want to delete this portfolio type?")) {
-            destroy(route("portfolio-types.destroy", id));
+            destroy(route("portfolios.destroy", id));
         }
     };
 
@@ -16,11 +16,11 @@ export default function Index({ portfolio_types }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Portfolio Types
+                    Portfolios
                 </h2>
             }
         >
-            <Head title="Portfolio Types" />
+            <Head title="Portfolios" />
 
             <div className="py-6">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -32,10 +32,10 @@ export default function Index({ portfolio_types }) {
 
                     <div className="mb-4">
                         <Link
-                            href={route("portfolio-types.create")}
+                            href={route("portfolios.create")}
                             className="inline-block rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
                         >
-                            + New Portfolio Type
+                            + New Portfolio
                         </Link>
                     </div>
 
@@ -50,6 +50,12 @@ export default function Index({ portfolio_types }) {
                                         Sort Order
                                     </th>
                                     <th className="whitespace-nowrap px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Portfolio Type
+                                    </th>
+                                    <th className="whitespace-nowrap px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Short Description
+                                    </th>
+                                    <th className="whitespace-nowrap px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                         Status
                                     </th>
                                     <th className="whitespace-nowrap px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -58,14 +64,21 @@ export default function Index({ portfolio_types }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {portfolio_types.length > 0 ? (
-                                    portfolio_types.map((section) => (
+                                {console.log(portfolios)}
+                                {portfolios.length > 0 ? (
+                                    portfolios.map((section) => (
                                         <tr key={section.id}>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 {section.title}
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 {section.sort_order}
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                                {section.portfolio_type?.title}
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                                {section.short_description}
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 <span
@@ -83,7 +96,7 @@ export default function Index({ portfolio_types }) {
                                             <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                                 <Link
                                                     href={route(
-                                                        "portfolio-types.edit",
+                                                        "portfolios.edit",
                                                         section.id
                                                     )}
                                                     className="text-indigo-600 hover:text-indigo-900"
@@ -107,7 +120,7 @@ export default function Index({ portfolio_types }) {
                                             colSpan="5"
                                             className="px-6 py-4 text-center text-sm text-gray-500"
                                         >
-                                            No portfolio types found.
+                                            No portfolios found.
                                         </td>
                                     </tr>
                                 )}

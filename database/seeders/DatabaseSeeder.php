@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PersonalInformationSeeder::class,
             SkillSeeder::class,
             ExperienceSeeder::class,
+            PortfolioTypeSeeder::class,
             // Add other seeders here as needed
         ]);
 

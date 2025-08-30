@@ -71,6 +71,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Portfolio Types
                                 </NavLink>
+
+                                <NavLink
+                                    href={route("portfolios.index")}
+                                    active={route().current(
+                                        "portfolios.index"
+                                    )}
+                                >
+                                    Portfolio
+                                </NavLink>
                             </div>
                         </div>
 

@@ -107,6 +107,6 @@ class PortfolioTypeController extends Controller
     {
         $skill->delete();
 
-        return redirect()->route('skills.index')->with('success', 'PortfolioType deleted successfully.');
+        return redirect()->route('portfolio-types.index')->with('success', 'PortfolioType deleted successfully.');
     }
 }
