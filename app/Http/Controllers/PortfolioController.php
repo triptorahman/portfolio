@@ -188,6 +188,15 @@ class PortfolioController extends Controller
             'details_images.*' => 'Details Image',
         ]);
 
+        // Get count of existing images before deletion
+        $existingCount = PortfolioDetailImage::where('portfolio_id', $portfolio->id)->count();
+        $deletedCount = is_array($request->deleted_details_images) ? count($request->deleted_details_images) : 0;
+        $newCount = $request->hasFile('details_images') ? count($request->file('details_images')) : 0;
+
+        if (($existingCount - $deletedCount + $newCount) < 1) {
+            return back()->withErrors(['details_images' => 'At least one details image is required.'])->withInput();
+        }
+
         $fileUploadService = new FileUploadService();
 
         $data = $request->only([
@@ -229,6 +238,7 @@ class PortfolioController extends Controller
                 $image->save();
             }
         }
+
 
         return redirect()->route('portfolios.index')->with('success', 'Portfolio updated successfully.');
     }

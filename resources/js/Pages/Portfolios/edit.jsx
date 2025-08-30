@@ -9,9 +9,7 @@ export default function Edit({
     portfolio_types,
     portfolio_details_images,
 }) {
-    // Project image preview state
     const [projectImagePreview, setProjectImagePreview] = React.useState(null);
-    // Add details_images and deleted_details_images to form state
     const { data, setData, post, processing, errors } = useForm({
         title: portfolio.title || "",
         sort_order: portfolio.sort_order || "",
@@ -22,8 +20,8 @@ export default function Edit({
         project_url: portfolio.project_url || "",
         description: portfolio.description || "",
         image_url: null,
-        details_images: [], // new images to upload
-        deleted_details_images: [], // ids of images to delete
+        details_images: [],
+        deleted_details_images: [],
     });
 
     // Local state for previews
@@ -31,6 +29,7 @@ export default function Edit({
     const [existingDetailsImages, setExistingDetailsImages] = React.useState(
         portfolio_details_images || []
     );
+    const [detailsImageError, setDetailsImageError] = React.useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -58,17 +57,10 @@ export default function Edit({
         const files = Array.from(e.target.files);
         setData("details_images", files);
         setDetailsImagePreviews(files.map((file) => URL.createObjectURL(file)));
-    };
 
-    // Handle delete existing image
-    const handleDeleteExistingImage = (imgId) => {
-        setData("deleted_details_images", [
-            ...data.deleted_details_images,
-            imgId,
-        ]);
-        setExistingDetailsImages(
-            existingDetailsImages.filter((img) => img.id !== imgId)
-        );
+        if (existingDetailsImages.length + files.length > 0) {
+            setDetailsImageError("");
+        }
     };
 
     // Remove a new image before submit
@@ -79,7 +71,30 @@ export default function Edit({
         const newPreviews = [...detailsImagePreviews];
         newPreviews.splice(idx, 1);
         setDetailsImagePreviews(newPreviews);
+        if (existingDetailsImages.length + newPreviews.length === 0) {
+            setDetailsImageError("At least one details image is required.");
+        } else {
+            setDetailsImageError("");
+        }
     };
+
+    // Handle delete existing image
+    const handleDeleteExistingImage = (imgId) => {
+        setData("deleted_details_images", [
+            ...data.deleted_details_images,
+            imgId,
+        ]);
+        const updatedImages = existingDetailsImages.filter((img) => img.id !== imgId);
+        setExistingDetailsImages(updatedImages);
+        if (updatedImages.length + detailsImagePreviews.length === 0) {
+            setDetailsImageError("At least one details image is required.");
+        } else {
+            setDetailsImageError("");
+        }
+    };
+
+    const totalDetailsImages = existingDetailsImages.length + detailsImagePreviews.length;
+    const canSubmit = totalDetailsImages > 0;
 
     return (
         <AuthenticatedLayout
@@ -379,10 +394,7 @@ export default function Edit({
                                 <div className="d-flex flex-wrap gap-2 mb-2 mt-3">
                                     {/* Show existing images */}
                                     {existingDetailsImages.map((img) => (
-                                        <div
-                                            key={img.id}
-                                            style={{ position: "relative" }}
-                                        >
+                                        <div key={img.id} style={{ position: "relative" }}>
                                             <img
                                                 src={`/storage/${img.image_url}`}
                                                 alt=""
@@ -395,17 +407,12 @@ export default function Edit({
                                             />
                                             <button
                                                 type="button"
-                                                onClick={() =>
-                                                    handleDeleteExistingImage(
-                                                        img.id
-                                                    )
-                                                }
+                                                onClick={() => handleDeleteExistingImage(img.id)}
                                                 style={{
                                                     position: "absolute",
                                                     top: 2,
                                                     right: 2,
-                                                    background:
-                                                        "rgba(255,0,0,0.7)",
+                                                    background: "rgba(255,0,0,0.7)",
                                                     color: "white",
                                                     border: "none",
                                                     borderRadius: "50%",
@@ -447,6 +454,9 @@ export default function Edit({
                                         </div>
                                     ))}
                                 </div>
+                                {detailsImageError && (
+                                    <div className="text-danger mt-2">{detailsImageError}</div>
+                                )}
                             </div>
 
                             {/* Buttons */}
@@ -460,7 +470,7 @@ export default function Edit({
 
                                 <button
                                     type="submit"
-                                    disabled={processing}
+                                    disabled={processing || !canSubmit}
                                     className="inline-flex justify-center rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-50"
                                 >
                                     Update
